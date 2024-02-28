@@ -1,0 +1,36 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /reportservice
+spring:
+  application:
+    name: reportservice
+  mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER
+eureka:
+  client:
+    service-url:
+      default-zone: http://localhost:8761/eureka
+
+logging:
+  file:
+    path: logs/
+    name: logs/application.log
+
+springfox:
+  documentation:
+    swagger-ui:
+      enabled: true
+    webjars:
+      enabled: true
+    swagger.v2.path: /api-docs
+    
+feign:
+  circuitbreaker:
+    enabled: true
+  client:
+    config:
+      default:
+        connect-timeout: 160000000
+        read-timeout: 160000000

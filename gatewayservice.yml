@@ -1,0 +1,73 @@
+server:
+  port: 9000
+  
+spring:
+  application:
+    name: gatewayservice
+  cloud:
+    gateway:
+      routes:
+      - id: stocktradeservice
+        uri:
+          lb://stocktradeservice
+        predicates:
+        - Path=/stocktradeservice/stocks/**
+        
+      - id: configserver
+        uri:
+          lb://configserver
+        predicates:
+        - Path=/configserver/config/**
+        
+      - id: authserver
+        uri:
+          lb://authserver
+        predicates:
+        - Path=/authserver/**
+        
+      - id: portpolioservice
+        uri:
+          lb://portpolioservice
+        predicates:
+        - Path=/portpolioservice/portpolio/**
+        
+      - id: reportservice
+        uri:
+          lb://reportservice
+        predicates:
+        - Path=/reportservice/report/**
+        
+      discovery:
+        locator:
+          enabled: true
+ 
+  main:
+    allow-bean-definition-overriding: true
+    web-application-type: reactive
+  security:
+    user:
+      name: capstone
+      password: capstone
+      
+  output:
+    ansi:
+      enabled: always
+ 
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+    instance:
+      hostname: localhost
+      prefer-ip-address: true
+      
+jwt:
+  secret: capstone_secret
+  expiration: 172800
+      
+logging:
+  file:
+    path: logs/
+    name: logs/application.log
